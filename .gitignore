@@ -1,0 +1,20 @@
+.vscode/settings.json
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Optional npm cache directory
+.npm
+
+# Dependency directories
+node_modules/
+
+# Logs
+logs
+*.log
