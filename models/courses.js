@@ -44,3 +44,5 @@ let Courses = {
                     advance computer science"
     }
 }
+
+module.exports = Courses;
