@@ -39,13 +39,13 @@ app.use((req, res, next) => {
     //Rremove trailing '/' if present
     let url = req.url.replace(/\/$/, "");
     //if the url is public, that is no auth required--> simply pass
-    if (cnst.authRequiredURLs.indexOf(url) === -1) {
+    if (cnst.publicURLs.indexOf(url) > -1) {
         return next();
     }
     // For auth required urls
     // Checking if the session for the user exists or not
     if (!req.session.user) {
-        return res.redirect("login");
+        return res.redirect('/login');
     }
     // Session exists: Good to go
     return next();

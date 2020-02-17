@@ -1,10 +1,11 @@
 const { validationResult } = require('express-validator');
-const getAuthToken = require('../utils/util').getAuthToken;
 const authService = require('../services/auth.services');
 
 module.exports.login = (req, res) => {
+    // Checking if there is any validation error in input params
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+        // Sending the errors
         return res.render('index', { errors: errors.array().map(val => val.msg) })
     }
     // Input Validation done call the service
@@ -12,8 +13,8 @@ module.exports.login = (req, res) => {
         .then((user) => {
             //create the session
             req.session.user = user;
-            // Preparing and rendering the home 
-            res.render('home', { user: user })
+            // Redirecting to home
+            res.redirect('/home');
         })
         .catch((error) => {
             // If Username and Password does not exist 
@@ -22,17 +23,17 @@ module.exports.login = (req, res) => {
 }
 
 module.exports.register = (req, res) => {
+    // Checking if there is any validation error in input params
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.render('index', { errors: errors.array().map(val => val.msg) })
     }
-    console.log(req.body);
     //Input Validation done calling the controller to create the user 
     authService.register(req.body)
         .then((user) => {
             //user is successfully created --> creating the session
             req.session.user = user;
-            res.render('home', { username })
+            res.redirect('/home')
         })
         .catch((error) => {
             res.render('index', { errors: [error] })
@@ -42,6 +43,5 @@ module.exports.register = (req, res) => {
 module.exports.logout = (req, res) => {
     // Deleting the session for the user
     delete req.session.user;
-    console.log(req.session.user);
     res.render('index', { message: "Successfully Logout.." })
 }

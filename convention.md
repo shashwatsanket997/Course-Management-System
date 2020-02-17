@@ -1,6 +1,9 @@
 # Code Convention
 The app structure strictly follows ``Model-Routes-Controllers-Services Code Structure``
 
+Abbreviation
+    ``cms``: course management system
+
 + Here the ``routes`` contains all the application endpoints
 + Each endpoints has its controller associated with it
 + The respective controller will be resposible for

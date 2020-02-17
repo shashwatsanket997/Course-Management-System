@@ -1,42 +1,49 @@
-<!DOCTYPE html>
-html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Document
-    body
-        h1 Course Management System
-        if errors
-            ul
-            - for(i in errors)
-                li #{errors[i]}
-        br
-        form(action="/login" method="POST")
-            label(for='username') Username:
-            input#username(type='text',placehoder='Username',name='username')
-            br
-            label(for='username') Password:
-            input#password(type='password',placehoder='Password',name='password')
-            br
-            button(type='submit') Submit
-        br
-        h3 Register
-        form(action="/register",method="POST")
-            label(for='name') Name:
-            input#name(type='text',placehoder='Name',name='name')
-            br
-            label(for='username') Username:
-            input#username(type='text',placehoder='Username',name='username')
-            br
-            label(for='username') Password:
-            input#password(type='password',placehoder='Password',name='password')
-            br
-            label(for='userType') User Type:
-            select#userType(name="userType")
-                option(value='student') Student
-                option(value='professor') Professor
-                option(value='admin') Admin
-            br
-            button(type='submit') Submit
-        
+extends layout.pug
+
+block title
+    title CMS-home
+block content
+    div(class="container mt-4")
+        div(class="col-lg-12")
+            if errors
+                div(class="alert alert-danger",role="alert") 
+                    ul
+                    - for(i in errors)
+                        li #{errors[i]}
+        div(class="row jumbotron")
+            div(class="col-lg-6 card")
+                div(class="card-header") Login
+                br 
+                form(action="/login" method="POST")
+                    div(class="form-group")
+                        label(for='username') Username:
+                        input#username(type='text', class="form-control",
+                            placehoder='Username',name='username')
+                    div(class="form-group")
+                        label(for='username') Password:
+                        input#password(type='password', class="form-control"
+                        placehoder='Password',name='password')
+                    button(type='submit', class="btn btn-success") Login
+            
+            div(class="col-lg-6 card")
+                div(class="card-header") Register
+                br
+                form(action="/register",method="POST")
+                    div(class="form-group")
+                        label(for='name') Name:
+                        input#name(type='text',class="form-control",placehoder='Name',name='name')
+                    div(class="form-group")
+                        label(for='username') Username:
+                        input#username(type='text',class="form-control",placehoder='Username',name='username')
+                    div(class="form-group")
+                        label(for='username') Password:
+                        input#password(type='password',class="form-control",placehoder='Password',name='password')
+                    div(class="form-group")
+                        label(for='userType') User Type:
+                        select#userType(name="userType",class="form-control")
+                            option(value='student') Student
+                            option(value='professor') Professor
+                            option(value='admin') Admin
+                    button(type='submit', class="btn btn-primary") Register
+
         

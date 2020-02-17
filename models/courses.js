@@ -6,7 +6,6 @@
     3. isEnabled {Boolean} default: true
     4. duration {Number} in hrs
     5. author {ref username }
-    6. checkLimit {Boolean} default: false : To restrict number of registraitons
     7. limit {Number} {min 5} {allowed null}
     8. content {String} Content of the course     
 */
@@ -16,7 +15,7 @@ let Courses = {
         "name": "Basics of Python",
         "isEnabled": true,
         "duration": 6,
-        "authon": "root",
+        "author": "root",
         "checkLimit": false,
         "limit": null,
         "content": "This is some content related to the course, \
@@ -26,7 +25,7 @@ let Courses = {
         "name": "Advance JavaScript",
         "isEnabled": true,
         "duration": 4,
-        "authon": "root",
+        "author": "root",
         "checkLimit": false,
         "limit": null,
         "content": "It covers Callbacks,Closure,Promises,Async/Await, \
@@ -36,7 +35,7 @@ let Courses = {
         "name": "Machine Learning",
         "isEnabled": true,
         "duration": 12,
-        "authon": "andrew",
+        "author": "andrew",
         "checkLimit": true,
         "limit": 5,
         "content": "It covers Regressions,Classification,Neural Networks, \

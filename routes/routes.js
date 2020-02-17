@@ -3,7 +3,6 @@ const express = require('express');
 const authController = require('../controllers/auth.controller');
 const cmsController = require('../controllers/cms.controller');
 const validator = require('../validators/validators');
-
 /* Route registering convention
     -> All the request for json response will be on /api/*
     -> Else for html rendering will be on BASE route /* 
@@ -20,6 +19,7 @@ module.exports = function (app) {
         if (req.session.user) {
             return res.redirect('/home');
         }
+        //else render login page
         return res.render('index');
     });
 
@@ -30,10 +30,16 @@ module.exports = function (app) {
     app.get('/logout', authController.logout);
     // ----------- Auth Routes end
 
-    app.get('/home', (req, res) => {
-        return res.render('home');
-    })
+    //Course Management System(cms) routes
+    app.get('/home', cmsController.renderHome);
 
+    app.get('/courses/add', (req, res) => {
+        let data = { 'user': req.session.user }
+        res.render('addCourse', data);
+    })
+    app.post('/courses/add', validator.addCourse, cmsController.addCourse);
+
+    app.delete('/courses/:id', validator.validCourseID, cmsController.deleteCourse);
 
     app.get('/*', (req, res) => {
         return res.redirect('/login')
