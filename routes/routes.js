@@ -1,5 +1,8 @@
 // All the routes are listed here
 const express = require('express');
+const authController = require('../controllers/auth.controller');
+const cmsController = require('../controllers/cms.controller');
+const validator = require('../validators/validators');
 
 /* Route registering convention
     -> All the request for json response will be on /api/*
@@ -10,10 +13,33 @@ module.exports = function (app) {
     // Creating separate router for /api
     const apiRoutes = express.Router();
 
-    app.get('/', (req, res) => {
-        res.send("Hello CMS");
+    // Auth Routes 
+    //if login | register 
+    app.get(['/login', '/register'], (req, res) => {
+        //if user already logged in
+        if (req.session.user) {
+            return res.redirect('/home');
+        }
+        return res.render('index');
+    });
+
+    app.post('/login', validator.login, authController.login);
+
+    app.post('/register', validator.register, authController.register);
+
+    app.get('/logout', authController.logout);
+    // ----------- Auth Routes end
+
+    app.get('/home', (req, res) => {
+        return res.render('home');
     })
 
+
+    app.get('/*', (req, res) => {
+        return res.redirect('/login')
+    })
+
+    //-----------
     apiRoutes.get('/', (req, res) => {
         res.json({
             "body": "This is the api endpoint"

@@ -1,6 +1,6 @@
 // All the utility functions are listed here 
 
-module.exports.getAuthToken() = () => {
+module.exports.getAuthToken = () => {
     /*
     Summary. It generates a random string of length 16, will be 
         used for authentication  

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Document
+    body
+        h1 Course Management System
+        if errors
+            ul
+            - for(i in errors)
+                li #{errors[i]}
+        br
+        form(action="/login" method="POST")
+            label(for='username') Username:
+            input#username(type='text',placehoder='Username',name='username')
+            br
+            label(for='username') Password:
+            input#password(type='password',placehoder='Password',name='password')
+            br
+            button(type='submit') Submit
+        br
+        h3 Register
+        form(action="/register",method="POST")
+            label(for='name') Name:
+            input#name(type='text',placehoder='Name',name='name')
+            br
+            label(for='username') Username:
+            input#username(type='text',placehoder='Username',name='username')
+            br
+            label(for='username') Password:
+            input#password(type='password',placehoder='Password',name='password')
+            br
+            label(for='userType') User Type:
+            select#userType(name="userType")
+                option(value='student') Student
+                option(value='professor') Professor
+                option(value='admin') Admin
+            br
+            button(type='submit') Submit
+        
+        
