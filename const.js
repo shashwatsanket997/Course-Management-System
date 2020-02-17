@@ -1,10 +1,12 @@
 // This file contains all the constants for this project
 
 module.exports.PORT = 7000;
+module.exports.SESSION_TIME = 1000 * 60 * 60 * 10; //10hrs
 
 // An array of authRequired Urls which requires token validation for access
 module.exports.authRequiredURLs = [
-    '/api'
+    '/api',
+    '/home'
 ]
 
 // Enum for UserType
