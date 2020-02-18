@@ -7,11 +7,11 @@ block content
         if successMsg
             div#successBlc(class="alert alert-success",role="alert") #{successMsg}
         if errorMsg
-            div#successBlc(class="alert alert-danger",role="alert") #{dangerMsg}
+            div#successBlc(class="alert alert-danger",role="alert") #{errorMsg}
         if infoMsg
             div#successBlc(class="alert alert-info",role="alert") #{infoMsg}
         div(class="row" style="min-height: 85vh")
-            div(class="col-lg-9" style="border-right: 3px solid #eeee")
+            div(class="col-lg-8" style="border-right: 3px solid #eeee")
                 if registeredCourses
                     div(class="alert alert-secondary") Enrolled Courses
                     div(class="card-deck")
@@ -19,6 +19,7 @@ block content
                             div(class="card border-info mb-3" style="max-width: 14rem;min-height: 14rem;")
                                 div(class="card-body text-secondary")
                                     h5(class="card-title") #{registeredCourses[i]['name']}
+                                    small CourseId: #{i}
                                     p(class="card-text") Author: #{registeredCourses[i]['author']}
                                     p(class="card-text") Duration: #{registeredCourses[i]['duration']}
                                     -var totRegs=0
@@ -35,8 +36,26 @@ block content
                             div(class="card border-info mb-3" style="max-width: 14rem;min-height: 14rem;")
                                 div(class="card-body text-secondary")
                                     h5(class="card-title") #{selfCourses[i]['name']}
+                                    small CourseId: #{i}
                                     p(class="card-text") Author: #{selfCourses[i]['author']}
                                     p(class="card-text") Duration: #{selfCourses[i]['duration']}
+                                    -var totRegs=0
+                                    if registrations[i]
+                                        -totRegs =registrations[i].length
+                                    p(class="card-text") Total Registrations: #{totRegs}
+                                div(class="card-footer bg-transparent border-info")
+                                    -var url = '/courses/' + i
+                                    a(href=url) Get Info
+                if collaboratedCourses
+                    div(class="alert alert-secondary") Collaborated Courses
+                    div(class="card-deck")
+                        - for(i in collaboratedCourses)
+                            div(class="card border-info mb-3" style="max-width: 14rem;min-height: 14rem;")
+                                div(class="card-body text-secondary")
+                                    h5(class="card-title") #{collaboratedCourses[i]['name']}
+                                    small CourseId: #{i}
+                                    p(class="card-text") Author: #{collaboratedCourses[i]['author']}
+                                    p(class="card-text") Duration: #{collaboratedCourses[i]['duration']}
                                     -var totRegs=0
                                     if registrations[i]
                                         -totRegs =registrations[i].length
@@ -51,6 +70,7 @@ block content
                             div(class="card border-info mb-3" style="max-width: 14rem;min-height: 14rem;")
                                 div(class="card-body text-secondary")
                                     h5(class="card-title") #{courses[i].name}
+                                    small CourseId: #{i}
                                     p(class="card-text") Author: #{courses[i]['author']}
                                     p(class="card-text") Duration: #{courses[i]['duration']}
                                     -var totRegs=0
@@ -67,6 +87,7 @@ block content
                             div(class="card border-info mb-3" style="max-width: 14rem;min-height: 14rem;")
                                 div(class="card-body text-secondary")
                                     h5(class="card-title") #{disabledCourses[i].name}
+                                    small CourseId: #{i}
                                     p(class="card-text") Author: #{disabledCourses[i]['author']}
                                     p(class="card-text") Duration: #{disabledCourses[i]['duration']}
                                     -var totRegs=0
@@ -77,7 +98,47 @@ block content
                                     -var url = '/courses/' + i
                                     a(href=url) Get Info
             
-            div(class="col-lg-3") Side Info
+            div(class="col-lg-4")
+                if user.userType === "professor"
+                    div(style="min-height:40vh")
+                        p Invitations for Collaboration
+                        table(class="table table-striped")
+                            thead
+                                tr
+                                    th(scope="col") CourseId
+                                    th(scope="col") Sent By
+                                    th(scope="col") Action
+
+                            tbody
+                                -for(i in invitations)
+                                    tr
+                                        td #{invitations[i].courseId}
+                                        td #{invitations[i].sentBy}
+                                        td
+                                            -var url='/courses/'+invitations[i].courseId+'/colaborate'
+                                            form(action=url,method="POST")
+                                                button(type="submit",class="btn btn-info btn-sm") Accept
+                    hr
+                    p Invite Status
+                    div(style="min-height:40vh")
+                        table(class="table table-striped")
+                            thead
+                                tr
+                                    th(scope="col") CourseId
+                                    th(scope="col") Sent To
+                                    th(scope="col") Status
+
+                            tbody
+                                -for(i in invites)
+                                    tr
+                                        td #{invites[i].courseId}
+                                        td #{invites[i].sentTo}
+                                        td
+                                            if invites[i].status ===0 
+                                                button(class="btn btn-danger btn-sm" disabled) Pending
+                                            else
+                                                button(class="btn btn-primary btn-sm" disabled) Accepted
+
 
 
         

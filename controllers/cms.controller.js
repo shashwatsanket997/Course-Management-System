@@ -1,6 +1,7 @@
 const cmsService = require('../services/cms.services');
 const { validationResult } = require('express-validator');
 const UserType = require('../const').UserType;
+const ErrorType = require('../const').ERROR_TYPE;
 
 module.exports.renderHome = (req, res) => {
     //Extracting the user from the current session 
@@ -16,30 +17,30 @@ module.exports.addCourse = (req, res) => {
     if (!errors.isEmpty()) {
         return res.render('addCourse', { errors: errors.array().map(val => val.msg) })
     }
-    // Checking the permission : --> Only professor and admin can add course
+    // Checking for the permission : --> Only professor and admin can add course
     if (req.session.user.userType === UserType.STUDENT) {
         // Not Authorized
         return res.redirect('/home');
     } else {
-        //Input Validation ..done, Permission check ..done
-        // Good to go
+        //Input Validation ..done 
+        //Permission check ..done
+        //Good to go
         //add author to the body: which is current user(not student)
-        // preparing the input param for adding the course
+        //preparing the input param for adding the course
         let courseId = req.body.courseId;
         req.body.author = req.session.user.username;
         req.body.isEnabled = true; // Default value as per Course schema
         cmsService.addCourse(req.body)
-            .then(() => cmsService.prepareCoursePage(courseId,
-                {
-                    //additional attributes to prepare the page
-                    user: req.session.user,
-                    successMsg: "Course added Successfully"
-                }))
+            .then(() => cmsService.prepareCoursePage(courseId, {
+                //additional attributes to prepare the page with Feedback msg
+                user: req.session.user,
+                successMsg: "Course added Successfully"
+            }))
             .then((data) => {
                 res.render('course', data);
             })
             .catch((error) => {
-                //Render Page with error
+                //If any error render page with error
                 res.render(res.render('addCourse', { errors: [error] }))
             })
     }
@@ -52,11 +53,11 @@ module.exports.getCourseDetails = (req, res) => {
         //error in id as params: simply redirecting to home
         return res.redirect('/home');
     }
-    //validation success
+    //validation success: Extracting courseId
     let courseId = req.params.id;
-    cmsService.prepareCoursePage(courseId, { user: req.session.user }).then((data) => {
-        return res.render('course', data);
-    })
+    //Render the course details in course page
+    cmsService.prepareCoursePage(courseId, { user: req.session.user })
+        .then((data) => res.render('course', data))
 }
 
 
@@ -72,20 +73,26 @@ module.exports.courseRegister = (req, res) => {
     //calling its service
     cmsService.courseRegister(courseId, username)
         .then(() => {
-            //adding additional attributes as arguments
+            //adding additional attributes as arguments followed by rendering
             cmsService.prepareCoursePage(courseId, {
                 user: req.session.user,
                 successMsg: "Course Registerd Successfully"
             }).then((data) => res.render('course', data))
         }).catch((error) => {
-            cmsService.prepareCoursePage(courseId, {
-                user: req.session.user,
-                errorMsg: error
-            }).then((data) => res.render('course', data))
+            if (error.type == ErrorType.COURSE_PAGE) {
+                // Valid Course ID: But Error
+                cmsService.prepareCoursePage(courseId, {
+                    user: req.session.user,
+                    errorMsg: error.msg
+                }).then((data) => res.render('course', data))
+            } else if (error.type == ErrorType.HOME_PAGE) {
+                //Invalid Course ID: Redirect to Home page
+                cmsService.prepareHomePage(req.session.user, {
+                    errorMsg: error.msg
+                })
+            }
         })
 }
-
-
 
 
 module.exports.courseDeregister = (req, res) => {
@@ -100,16 +107,24 @@ module.exports.courseDeregister = (req, res) => {
     //calling its service
     cmsService.courseDeregister(courseId, username)
         .then(() => {
-            //adding additional attributes as arguments: Prepare the page
+            //adding additional attributes as arguments: Preparing the page
             cmsService.prepareCoursePage(courseId, {
                 user: req.session.user,
                 successMsg: "Course Deregisterd Successfully"
             }).then((data) => res.render('course', data))
         }).catch((error) => {
-            cmsService.prepareCoursePage(courseId, {
-                user: req.session.user,
-                errorMsg: error
-            }).then((data) => res.render('course', data))
+            if (error.type == ErrorType.COURSE_PAGE) {
+                // Valid Course ID: But Error
+                cmsService.prepareCoursePage(courseId, {
+                    user: req.session.user,
+                    errorMsg: error.msg
+                }).then((data) => res.render('course', data))
+            } else if (error.type == ErrorType.HOME_PAGE) {
+                //Invalid Course ID: Redirect to Home page
+                cmsService.prepareHomePage(req.session.user, {
+                    errorMsg: error.msg
+                })
+            }
         })
 }
 
@@ -127,45 +142,40 @@ module.exports.deleteCourse = (req, res) => {
     cmsService.deleteCourse(courseId)
         .then(() => {
             //Succesfully deleted :prepare Home Page with successMsg
-            cmsService.prepareHomePage(user,
-                { successMsg: "Course successfully deleted" })
-                .then((data) => res.render('home', data))
+            cmsService.prepareHomePage(user, {
+                successMsg: "Course successfully deleted"
+            }).then((data) => res.render('home', data))
         }).catch((error) => {
             //If any error occured prepare HomePage with errorMsg
-            cmsService.prepareHomePage(user,
-                { errorMsg: error })
-                .then((data) => res.render('home', data))
+            cmsService.prepareHomePage(user, {
+                errorMsg: error
+            }).then((data) => res.render('home', data))
         })
 }
 
 module.exports.editCourse = (req, res) => {
-    if (req.method == "GET") {
+    if (req.method === "GET") {
         // Check if we have the valid id
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             //Simply: Redirect to home page : Invalid Id
-            return res.redirect("/home");
+            return res.redirect('/home');
         }
         let courseId = req.params.id;
         let user = req.session.user;
-        cmsService.getCourseMutation(courseId, user.username)
-            .then((course) => {
-                return res.render("addCourse", {
-                    course,
-                    isEdit: true,
-                    user
-                })
-            })
+        cmsService.getCourseMutation(courseId, user)
+            .then((course) => res.render("addCourse", {
+                course,
+                isEdit: true,
+                user
+            }))
             .catch((err) => {
-                console.log(err);
-                //If id not present in the database: render home with error
+                //If id not present in the database or permission error 
+                //render home with error
                 cmsService.prepareHomePage(user, { errorMsg: err })
-                    .then((data) => {
-                        return res.render('home', data);
-                    })
+                    .then((data) => res.render('home', data))
             })
     }
-
     if (req.method == "POST") {
         //Handling Form 
         let courseId = req.params.id;
@@ -175,16 +185,14 @@ module.exports.editCourse = (req, res) => {
         if (!errors.isEmpty()) {
             //Render the form again with, error 
             cmsService.getCourse(courseId)
-                .then((course) => {
-                    return res.render("addCourse", {
-                        course,
-                        isEdit: true,
-                        user
-                    })
-                })
+                .then((course) => res.render("addCourse", {
+                    course,
+                    isEdit: true,
+                    user
+                }))
         }
-        //Calling its service
-        cmsService.courseMutation(courseId, user.username, req.body)
+        //Calling its service, to make the changes
+        cmsService.courseMutation(courseId, user, req.body)
             .then(() => {
                 //Edit Success: prepare course page
                 cmsService.prepareCoursePage(courseId, {
@@ -197,6 +205,97 @@ module.exports.editCourse = (req, res) => {
                     user: req.session.user,
                     errorMsg: err
                 }).then((data) => res.render('course', data))
+            })
+    }
+}
+
+
+module.exports.getCourseCollaborations = (req, res) => {
+    // Check if we have the valid id
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        //Simply: Redirect to home page : Invalid Id
+        return res.redirect('/home');
+    }
+    //permission check 
+    if (req.session.user === UserType.STUDENT) {
+        //Not Authorized: Simply redirect to home with error 
+        cmsService.prepareHomePage(req.session.user, {
+            errorMsg: "Unauthorized access"
+        }).then((data) => res.render('home', data))
+    } else {
+        //Validation check ...done
+        //Permission check ...done 
+        console.log("Here");
+        let courseId = req.params.id;
+        let user = req.session.user;
+        cmsService.prepareCollaborationPage(courseId, user)
+            .then((data) => res.render('collaboration', data))
+            .catch((err) => {
+                //courseId does not exists : render home with error
+                cmsService.prepareHomePage(req.session.user, {
+                    errorMsg: err
+                })
+            })
+    }
+}
+
+module.exports.sendCollabRequest = (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        //Simply: Redirect to home page : Invalid Id
+        return res.redirect('/home');
+    }
+    if (req.session.user === UserType.STUDENT) {
+        //Not Authorized: Simply redirect to home with error 
+        cmsService.prepareHomePage(req.session.user, {
+            errorMsg: "Unauthorized access"
+        }).then((data) => res.render('home', data))
+    } else {
+        //Validation check ...done
+        //Permission check ...done 
+        let courseId = req.params.id;
+        let user = req.session.user;
+        let sentTo = req.params.username;
+        let sentBy = user.username;
+        cmsService.sendCollabRequest(courseId, sentTo, sentBy)
+            .then(() => {
+                cmsService.prepareCollaborationPage(courseId, user, {
+                    successMsg: "Invitation for collaboration sent."
+                }).then((data) => res.render('collaboration', data))
+            })
+            .catch((err) => {
+                cmsService.prepareCollaborationPage(courseId, user, { errorMsg: err })
+                    .then((data) => res.render('collaboration', data))
+            })
+    }
+}
+
+module.exports.acceptCollabRequest = (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        //Simply: Redirect to home page : Invalid Id
+        return res.redirect('/home');
+    }
+    if (req.session.user === UserType.STUDENT) {
+        //Not Authorized: Simply redirect to home with error 
+        cmsService.prepareHomePage(req.session.user, {
+            errorMsg: "Unauthorized access"
+        }).then((data) => res.render('home', data))
+    } else {
+        //Validation check ...done
+        //Permission check ...done 
+        let courseId = req.params.id;
+        let user = req.session.user;
+        cmsService.acceptCollabRequest(courseId, user.username)
+            .then(() => {
+                cmsService.prepareHomePage(user, {
+                    successMsg: "Accepted collabration request"
+                }).then((data) => res.render('home', data))
+            })
+            .catch((err) => {
+                cmsService.prepareHomePage(user, { errorMsg: err })
+                    .then((data) => res.render('home', data))
             })
     }
 }

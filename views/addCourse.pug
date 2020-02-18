@@ -26,29 +26,34 @@ block content
                                 label(for='CourseId') CourseID:
                                 input#courseId(type='text', class="form-control",
                                     placehoder='Format ABC1234',name='courseId' ,
-                                    value=course.courseId,
+                                    value=course ? course.courseId : "",
                                     readonly= isEdit ? true : false)
                         div.col
                             div(class="form-group")
                                 label(for='name') Course Name:
                                 input#name(type='text', class="form-control",
                                     placehoder='Course name',name='name',
-                                    value=course.name,
+                                    value=course ? course.name: "",
                                     readonly= isEdit ? true : false)
                     div.row
                         div.col
                             div(class="form-group")
                                 label(for='duration') Duration:
                                 input#duration(type='number', class="form-control",
-                                ,name='duration',min=1,value=course.duration)
+                                ,name='duration',min=1,value=course ? course.duration: 0)
                         div.col
                             div#limitBlc(class="form-group", style="display: hidden" )
                                 label(for='limit') Limit
                                 input#limit(type='number', class="form-control",
-                                    ,name='limit',value=course.limit)
+                                    ,name='limit',min=10,value=course ? course.limit: 0)
                     div(class="form-group")
                         label(for='content') Content
-                        textarea#content(name="content", 
-                            cols="15", rows="8",
-                            class="form-control") #{course.content}
+                        if course
+                            textarea#content(name="content", 
+                                cols="15", rows="8",
+                                class="form-control") #{course.content}
+                        else
+                            textarea#content(name="content", 
+                                cols="15", rows="8",
+                                class="form-control")
                     button(type='submit', class="btn btn-primary") Submit    

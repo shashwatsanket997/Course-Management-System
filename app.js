@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 
 // Setting session 
 app.use(session({
-    secret: 'NeverStopLearning',
+    secret: 'NeverStopLearningAndRespectSuggestions',
     name: 'cms',
     cookie: {
         maxAge: cnst.SESSION_TIME,
@@ -34,10 +34,11 @@ app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'pug');
 app.set('views', './views');
 
-//Auth Token Verification Middleware: For A custom Token allocation and session management
+//Auth Verification Middleware
 app.use((req, res, next) => {
     //Rremove trailing '/' if present
     let url = req.url.replace(/\/$/, "");
+    //Public urls are declared in const.js
     //if the url is public, that is no auth required--> simply pass
     if (cnst.publicURLs.indexOf(url) > -1) {
         return next();

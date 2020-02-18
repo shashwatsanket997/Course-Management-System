@@ -1,0 +1,48 @@
+extends layout.pug
+
+block title
+    title CMS-home
+block content
+    div(class="container mt-3")
+        if successMsg
+            div#msgBlc(class="alert alert-success",role="alert") #{successMsg}
+        if errorMsg
+            div#msgBlc(class="alert alert-danger",role="alert") #{errorMsg}
+        if infoMsg
+            div#msgBlc(class="alert alert-info",role="alert") #{infoMsg}
+        div(class="row",style="min-height: 85vh")
+            div(class="col-lg-8",style="border-right: 3px solid #eeee")
+                div(class="alert alert-secondary")  Add collaborators
+                p Send Invites to other professors
+                table(class="table table-striped")
+                        thead
+                            tr
+                                th(scope="col") #
+                                th(scope="col") Username
+                                th(scope="col") Action
+                        tbody
+                            -for(i in otherProfs)
+                                tr
+                                    th(scope="row") #{i}
+                                    td #{otherProfs[i].username}
+                                    td 
+                                        if !otherProfs[i].isSent
+                                            -var url='/courses/'+courseId+'/collaborations/'+otherProfs[i].username
+                                            form(action=url,method="POST")
+                                                button(type="submit",class="btn btn-success btn-sm") Send
+                                        else
+                                            button(type="submit",class="btn btn-secondary btn-sm") Already Sent
+            div(col="col-lg-4",style="margin-left:10px;")
+                center
+                    h4 Collaborating Professor
+                    table(class="table table-striped")
+                        thead
+                            tr
+                                th(scope="col") #
+                                th(scope="col") Username
+                        tbody
+                            -for(i in collaboraters)
+                                tr
+                                    td(scope="col") #{i}
+                                    td #{collaboraters[i]}
+

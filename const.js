@@ -15,3 +15,15 @@ module.exports.UserType = {
     PROF: 'professor',
     ADMIN: 'admin'
 }
+
+// Enum for Error Redirection
+module.exports.ERROR_TYPE = {
+    HOME_PAGE: 0,
+    COURSE_PAGE: 1
+}
+
+//Enum for Invitation Status 
+module.exports.INVITE_STATUS = {
+    PENDING: 0,
+    ACCEPTED: 1
+}

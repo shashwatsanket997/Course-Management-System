@@ -1,5 +1,8 @@
 const { check, param } = require('express-validator');
 const UserType = require('../const').UserType;
+
+// All the validators are listed here
+
 module.exports.login = [
     check('username', 'Username is required').not().isEmpty(),
     check('username', 'Password is required').not().isEmpty()

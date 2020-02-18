@@ -32,6 +32,11 @@ let Users = {
         "password": "asdf",
         "userType": UserType.PROF
     },
+    "silber": {
+        "name": "Silber Chatz",
+        "password": "asdf",
+        "userType": UserType.PROF
+    },
     "root": {
         "name": "Root",
         "password": "asdf",

@@ -16,11 +16,19 @@ block content
                 
                 div(class="card")
                     div(class="card-header") #{course.courseId}
+                        if(course.author === user.username)
+                            -var url='/courses/'+ course.courseId +'/collaborations'
+                            a(class="btn btn-info btn-sm",href=url, style="float:right") Manage Collaborations
                     div(class="card-body")
                         h5(class="card-title") #{course.name}
                         p(class="card-text") Author: #{course.author}
                         p(class="card-text") Duration: #{course.duration}
                         p(class="card-text") Limit: #{course.limit}
+                        if collaborations
+                            p(class="card-text") Collaborating Professors 
+                            ul 
+                                -for(i in collaborations)
+                                    li #{collaborations[i]}
                         -var totRegs = 0
                         if registrations
                             -totRegs = registrations.length;
@@ -31,17 +39,20 @@ block content
                         if user.userType === "student" 
                             if registrations.indexOf(user.username) < 0
                                 -var url='/courses/' + course.courseId +'/register'
-                                a(href=url class="btn btn-info") Register
+                                form(action=url,method="POST")
+                                    button(type="submit" class="btn btn-info") Register
                             else
                                 -var url='/courses/' + course.courseId +'/deregister'
-                                a(href=url class="btn btn-secondary") Deregister
-                        if user.userType === "professor"
-                            if(course.author === user.username) 
+                                form(action=url,method="POST")
+                                    button(type="submit" class="btn btn-info") Deregister
+                        if user.userType === "professor" 
                                 -var delUrl = '/courses/'+ course.courseId  +'/delete'
                                 form(action=delUrl, method="post")
                                     -var editUrl = '/courses/'+course.courseId+'/edit'
-                                    a(href=editUrl class="btn btn-info" style="margin-right:6px") Edit
-                                    button(type='submit' class="btn btn-danger") Delete
+                                    if(course.author === user.username || collaborations.indexOf(user.username) > -1) 
+                                        a(href=editUrl class="btn btn-info" style="margin-right:6px") Edit
+                                    if(course.author === user.username)
+                                        button(type='submit' class="btn btn-danger") Delete
                         if user.userType === "admin" 
                             -var delUrl = '/courses/'+ course.courseId +'/delete'
                             form(action=delUrl, method="post")

@@ -29,12 +29,12 @@ module.exports.register = (body) => {
         //checking if the username is already taken
         let username = body.username;
         if (username in Users) {
-            reject("Username already exists");
+            reject("Username already taken");
         } else {
             // Good to go: Inserting the user
             delete body[username];
             Users[username] = body
-            // Sending user to the controller to create session
+            // Sending user back to the controller to create session
             let userObj = {
                 'name': Users[username]['name'],
                 'username': username,
