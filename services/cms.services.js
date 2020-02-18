@@ -310,7 +310,7 @@ module.exports.acceptCollabRequest = (courseId, username) => {
         if (!(courseId in Courses)) {
             return reject(`Course with Id ${courseId} does not exists`);
         }
-        //checking if the request  for the given courseId is present or not 
+        //checking if the request for the given courseId is present or not 
         let inviteObj = {
             courseId,
             sentTo: username,
