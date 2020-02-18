@@ -43,5 +43,5 @@ module.exports.register = (req, res) => {
 module.exports.logout = (req, res) => {
     // Deleting the session for the user
     delete req.session.user;
-    res.render('index', { message: "Successfully Logout.." })
+    res.redirect('/login');
 }

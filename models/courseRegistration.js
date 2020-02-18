@@ -18,3 +18,5 @@ let courseRegs = {
     'CSE1002': ["shashwat", "suyash"],
     'CSE1003': ["shashwat", "suyash", "ishu"]
 }
+
+module.exports = courseRegs;

@@ -40,7 +40,7 @@ let Users = {
     "admin": {
         "name": "Creator",
         "password": "asdf",
-        "userType": UserType.admin
+        "userType": UserType.ADMIN
     }
 }
 

@@ -32,6 +32,20 @@ module.exports.addCourse = [
 module.exports.validCourseID = [
     param('id').custom(id => {
         let patt = /[A-Z]{3}[1-9][0-9]{3}/
-        return patt.test(courseId)
+        return patt.test(id)
     }).withMessage("CourseId must follow the format ABC1234")
+]
+
+module.exports.editCourse = [
+    // As courseId and CourseName cannot be changed
+    //Check the valid id in the param
+    param('id').custom(id => {
+        let patt = /[A-Z]{3}[1-9][0-9]{3}/
+        return patt.test(id)
+    }).withMessage("CourseId must follow the format ABC1234"),
+    check('duration', 'duration is required').not().isEmpty(),
+    check('content', 'Content is required').not().isEmpty(),
+    check('limit', 'Limit is required').not().isEmpty(),
+    check('duration', 'Duration must be number').isNumeric(),
+    check('limit', 'Limit must be number').isNumeric(),
 ]

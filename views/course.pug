@@ -1,0 +1,66 @@
+extends layout.pug
+
+block title
+    title CMS-home
+block content
+    div(class="container mt-3")
+        if successMsg
+            div#successBlc(class="alert alert-success",role="alert") #{successMsg}
+        if errorMsg
+            div#successBlc(class="alert alert-danger",role="alert") #{errorMsg}
+        if infoMsg
+            div#successBlc(class="alert alert-info",role="alert") #{infoMsg}
+        div(class="row",style="min-height: 85vh")
+            div(class="col-lg-9" style="border-right: 3px solid #eeee")
+                div(class="alert alert-secondary")  Course Details / <b>#{course.courseId}</b>
+                
+                div(class="card")
+                    div(class="card-header") #{course.courseId}
+                    div(class="card-body")
+                        h5(class="card-title") #{course.name}
+                        p(class="card-text") Author: #{course.author}
+                        p(class="card-text") Duration: #{course.duration}
+                        p(class="card-text") Limit: #{course.limit}
+                        -var totRegs = 0
+                        if registrations
+                            -totRegs = registrations.length;
+                        p(class="card-text") Total Registration: #{totRegs}
+                        p(class="card-text") #{course.content}
+                    div(class="card-footer")
+                        //- Conditions
+                        if user.userType === "student" 
+                            if registrations.indexOf(user.username) < 0
+                                -var url='/courses/' + course.courseId +'/register'
+                                a(href=url class="btn btn-info") Register
+                            else
+                                -var url='/courses/' + course.courseId +'/deregister'
+                                a(href=url class="btn btn-secondary") Deregister
+                        if user.userType === "professor"
+                            if(course.author === user.username) 
+                                -var delUrl = '/courses/'+ course.courseId  +'/delete'
+                                form(action=delUrl, method="post")
+                                    -var editUrl = '/courses/'+course.courseId+'/edit'
+                                    a(href=editUrl class="btn btn-info" style="margin-right:6px") Edit
+                                    button(type='submit' class="btn btn-danger") Delete
+                        if user.userType === "admin" 
+                            -var delUrl = '/courses/'+ course.courseId +'/delete'
+                            form(action=delUrl, method="post")
+                                -var editUrl = '/courses/'+course.courseId+"/edit"
+                                a(href=editUrl class="btn btn-info" style="margin-right:6px") Edit
+                                button(type='submit' class="btn btn-danger") Delete
+                br 
+                p Doubt clearing session
+            
+            div(class="col-lg-3") 
+                center
+                    h5 Registered Students
+                    table(class="table table-striped")
+                        thead
+                            tr
+                                th(scope="col") #
+                                th(scope="col") Username
+                        tbody
+                            -for(i in registrations)
+                                tr
+                                    th(scope="row") #{i}
+                                    td #{registrations[i]}

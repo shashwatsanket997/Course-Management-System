@@ -1,8 +1,14 @@
 extends layout.pug
 
 block title
-    title Add Course
+    title Course
 block content
+    if isEdit
+        -var title = "Edit Course"
+        -var formUrl = "/courses/"+course.courseId+"/edit"
+    else
+        -var title = "Add Course"
+        -var formUrl = "/courses/add"
     center
         div(class="container mt-4")
             div(class="col-lg-12")
@@ -12,31 +18,37 @@ block content
                         - for(i in errors)
                             li #{errors[i]}
             div(class="col-lg-8 card")
-                div(class="card-header") Add Course
-                form(action="/courses/add" ,method="POST")
+                div(class="card-header") #{title}
+                form(action=formUrl ,method="POST")
                     div.row
                         div.col
                             div(class="form-group")
                                 label(for='CourseId') CourseID:
                                 input#courseId(type='text', class="form-control",
-                                    placehoder='Format ABC1234',name='courseId')
+                                    placehoder='Format ABC1234',name='courseId' ,
+                                    value=course.courseId,
+                                    readonly= isEdit ? true : false)
                         div.col
                             div(class="form-group")
                                 label(for='name') Course Name:
                                 input#name(type='text', class="form-control",
-                                    placehoder='Course name',name='name')
+                                    placehoder='Course name',name='name',
+                                    value=course.name,
+                                    readonly= isEdit ? true : false)
                     div.row
                         div.col
                             div(class="form-group")
                                 label(for='duration') Duration:
                                 input#duration(type='number', class="form-control",
-                                ,name='duration',min=5)
+                                ,name='duration',min=1,value=course.duration)
                         div.col
                             div#limitBlc(class="form-group", style="display: hidden" )
                                 label(for='limit') Limit
                                 input#limit(type='number', class="form-control",
-                                    ,name='limit')
+                                    ,name='limit',value=course.limit)
                     div(class="form-group")
                         label(for='content') Content
-                        textarea#content(name="content", cols="15", rows="8",class="form-control")
+                        textarea#content(name="content", 
+                            cols="15", rows="8",
+                            class="form-control") #{course.content}
                     button(type='submit', class="btn btn-primary") Submit    

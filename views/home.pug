@@ -3,4 +3,82 @@ extends layout.pug
 block title
     title CMS-home
 block content
-    h3 This is home page
+    div(class="container mt-3")
+        if successMsg
+            div#successBlc(class="alert alert-success",role="alert") #{successMsg}
+        if errorMsg
+            div#successBlc(class="alert alert-danger",role="alert") #{dangerMsg}
+        if infoMsg
+            div#successBlc(class="alert alert-info",role="alert") #{infoMsg}
+        div(class="row" style="min-height: 85vh")
+            div(class="col-lg-9" style="border-right: 3px solid #eeee")
+                if registeredCourses
+                    div(class="alert alert-secondary") Enrolled Courses
+                    div(class="card-deck")
+                        - for(i in registeredCourses)
+                            div(class="card border-info mb-3" style="max-width: 14rem;min-height: 14rem;")
+                                div(class="card-body text-secondary")
+                                    h5(class="card-title") #{registeredCourses[i]['name']}
+                                    p(class="card-text") Author: #{registeredCourses[i]['author']}
+                                    p(class="card-text") Duration: #{registeredCourses[i]['duration']}
+                                    -var totRegs=0
+                                    if registrations[i]
+                                        -totRegs =registrations[i].length
+                                    p(class="card-text") Total Registrations: #{totRegs}
+                                div(class="card-footer bg-transparent border-info")
+                                    -var url = '/courses/' + i
+                                    a(href=url) Get Info
+                if selfCourses
+                    div(class="alert alert-secondary") Your Courses
+                    div(class="card-deck")
+                        - for(i in selfCourses)
+                            div(class="card border-info mb-3" style="max-width: 14rem;min-height: 14rem;")
+                                div(class="card-body text-secondary")
+                                    h5(class="card-title") #{selfCourses[i]['name']}
+                                    p(class="card-text") Author: #{selfCourses[i]['author']}
+                                    p(class="card-text") Duration: #{selfCourses[i]['duration']}
+                                    -var totRegs=0
+                                    if registrations[i]
+                                        -totRegs =registrations[i].length
+                                    p(class="card-text") Total Registrations: #{totRegs}
+                                div(class="card-footer bg-transparent border-info")
+                                    -var url = '/courses/' + i
+                                    a(href=url) Get Info
+                div(class="alert alert-secondary") Courses
+                if courses
+                    div(class="card-deck")
+                        - for(i in courses)
+                            div(class="card border-info mb-3" style="max-width: 14rem;min-height: 14rem;")
+                                div(class="card-body text-secondary")
+                                    h5(class="card-title") #{courses[i].name}
+                                    p(class="card-text") Author: #{courses[i]['author']}
+                                    p(class="card-text") Duration: #{courses[i]['duration']}
+                                    -var totRegs=0
+                                    if registrations[i]
+                                        -totRegs =registrations[i].length
+                                    p(class="card-text") Total Registrations: #{totRegs}
+                                div(class="card-footer bg-transparent border-info")
+                                    -var url = '/courses/' + i
+                                    a(href=url) Get Info
+
+                if disabledCourses
+                    div(class="card-deck")
+                        - for(i in disabledCourses)
+                            div(class="card border-info mb-3" style="max-width: 14rem;min-height: 14rem;")
+                                div(class="card-body text-secondary")
+                                    h5(class="card-title") #{disabledCourses[i].name}
+                                    p(class="card-text") Author: #{disabledCourses[i]['author']}
+                                    p(class="card-text") Duration: #{disabledCourses[i]['duration']}
+                                    -var totRegs=0
+                                    if registrations[i]
+                                        - totRegs = registrations[i].length
+                                    p(class="card-text") Total Registrations: #{totRegs}
+                                div(class="card-footer bg-transparent border-info")
+                                    -var url = '/courses/' + i
+                                    a(href=url) Get Info
+            
+            div(class="col-lg-3") Side Info
+
+
+        
+            

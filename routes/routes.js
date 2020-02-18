@@ -3,6 +3,7 @@ const express = require('express');
 const authController = require('../controllers/auth.controller');
 const cmsController = require('../controllers/cms.controller');
 const validator = require('../validators/validators');
+
 /* Route registering convention
     -> All the request for json response will be on /api/*
     -> Else for html rendering will be on BASE route /* 
@@ -37,9 +38,22 @@ module.exports = function (app) {
         let data = { 'user': req.session.user }
         res.render('addCourse', data);
     })
+
     app.post('/courses/add', validator.addCourse, cmsController.addCourse);
 
-    app.delete('/courses/:id', validator.validCourseID, cmsController.deleteCourse);
+
+    app.get('/courses/:id', validator.validCourseID, cmsController.getCourseDetails);
+
+    app.get('/courses/:id/edit', validator.validCourseID, cmsController.editCourse)
+    // PUT is not present in HTML forms method
+    app.post('/courses/:id/edit', validator.editCourse, cmsController.editCourse)
+
+    //As delete is not present in HTML forms: Using post instead
+    app.post('/courses/:id/delete', validator.validCourseID, cmsController.deleteCourse);
+
+    app.get('/courses/:id/register', validator.validCourseID, cmsController.courseRegister);
+
+    app.get('/courses/:id/deregister', validator.validCourseID, cmsController.courseDeregister)
 
     app.get('/*', (req, res) => {
         return res.redirect('/login')
