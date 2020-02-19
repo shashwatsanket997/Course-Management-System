@@ -1,0 +1,20 @@
+[
+  {
+    "sentTo": "silber",
+    "sentBy": "andrew",
+    "courseId": "CSE1003",
+    "status": 0
+  },
+  {
+    "sentTo": "root",
+    "sentBy": "andrew",
+    "courseId": "CSE1003",
+    "status": 1
+  },
+  {
+    "sentTo": "silber",
+    "sentBy": "root",
+    "courseId": "CSE1001",
+    "status": 0
+  }
+]

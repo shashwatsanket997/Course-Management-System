@@ -1,0 +1,43 @@
+{
+  "shashwat": {
+    "name": "Shashwat",
+    "password": "asdf",
+    "userType": "student"
+  },
+  "suyash": {
+    "name": "Suyash",
+    "password": "asdf",
+    "userType": "student"
+  },
+  "ishu": {
+    "name": "Ishu",
+    "password": "asdf",
+    "userType": "student"
+  },
+  "andrew": {
+    "name": "Andrew Ng",
+    "password": "asdf",
+    "userType": "professor"
+  },
+  "silber": {
+    "name": "Silber Chatz",
+    "password": "asdf",
+    "userType": "professor"
+  },
+  "root": {
+    "name": "Root",
+    "password": "asdf",
+    "userType": "professor"
+  },
+  "admin": {
+    "name": "Creator",
+    "password": "asdf",
+    "userType": "admin"
+  },
+  "17BCE1007": {
+    "name": "Shashwat Sanket",
+    "username": "17BCE1007",
+    "password": "asdf",
+    "userType": "professor"
+  }
+}

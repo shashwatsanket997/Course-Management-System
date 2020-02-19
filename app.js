@@ -4,6 +4,8 @@ const session = require('express-session')
 const cnst = require('./const');
 const router = require('./routes/routes');
 const app = express();
+const prepareDb = require('./models/db').prepareDb;
+const writeEvent = require('./models/db').writeEvent;
 
 
 // Building and Configuring the server
@@ -56,6 +58,20 @@ app.use((req, res, next) => {
 router(app);
 
 //Listen on the port
-app.listen(cnst.PORT, () => {
-    console.log(`Server running on Port: ${cnst.PORT}`);
-})
+prepareDb()
+    .then((db) => {
+        console.log("Database prepared");
+        global.db = db;
+        app.listen(cnst.PORT, () => {
+            console.log(`Server running on Port: ${cnst.PORT}`);
+        })
+    })
+    .catch((err) => {
+        console.log("Unable to prepare the dataset");
+        console.log(err);
+    })
+
+// Saving the system state back to database at certain time interval
+setInterval(() => {
+    writeEvent.emit("dbCheckpoint", db)
+}, cnst.DB_CHECKPOINT_TIME);
