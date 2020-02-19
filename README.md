@@ -7,3 +7,16 @@ A Course Management System(``CMS``) is an online environment for course interact
 - [What's Included](#whats-included)
 - [Quick Start](#quick-start)
 - [Dependencies](#documentation)
+
+## Features
++ A ``cookie-session`` based ``authentication`` system. To manage the context and track of different types of users.
++ ``3`` types of users ``Student``, ``Professor``, ``Admin``
++ ``Course Registration System`` : ``Student`` can register set of available courses based on the registration ``limit``. Moreover it can deregister the registered course.
++ ``Student`` can view their registered courses on the home page.
++ ``Professor`` can create courses or can invite other professors for collaboration using `` Collaboration via invitation``
++ ``Professor`` or collaboraters can ``edit`` their respective courses. Edit course means the ``duration``, ``limit of registration`` and ``content``
++ ``Professor`` specifically the creator of the course can ``delete`` the course. 
++ ``Professor`` can accept invitation for collaboration from other professors.
++ ``Admin`` can ``Create``, ``Read`` ,``Edit``, ``Delete`` the courses on the portal.
++ ``Admin`` can also manage the collaboration of the particular course.
++ ``Collaboration via invitation``: A feature which enables the professors to send and accept invitation for collaboration.
