@@ -6,7 +6,7 @@ A Course Management System(``CMS``) is an online environment for course interact
 - [Features](#features)
 - [What's Included](#whats-included)
 - [Quick Start](#quick-start)
-- [Dependencies](#documentation)
+- [Documentation](#documentation)
 
 ## Features
 + A ``cookie-session`` based ``authentication`` system. To manage the context and track of different types of users.
@@ -24,7 +24,7 @@ A Course Management System(``CMS``) is an online environment for course interact
 ## What's Included
 The structure of the code strictly follows ``Model-Routes-Controllers-Services``. Here in this project 
 + The ``models`` contains pseudo database entries.
-+ The ``routes`` contains all the availble endpoints, and serve as mapping of url with the respection controller
++ The ``routes`` contains all the availble endpoints, and serve as mapping of url with its associated controller
 + The ``controllers`` are mainly responsible for input validation and rendering the respective pages
 + The ``services`` are those which interacts with the database(here the ``Pseudo`` database) and prepares the data as requested by users
 
@@ -32,4 +32,11 @@ Apart from this, the project has ``validators``, ``const``,``views``.
 + ``validators`` contains all the validation logic and constraint.
 + ``const`` contains all the ``constants``,``Enum`` for this project as well as ``publicUrls`` the routes that does'nt seek authentication.
 + ``views`` has pug files which will server during page rendering. Each pug views is been extended with layout.pug which acts as master template.
-### Sequence flow
+For detailed Code convention refer ``convention.md``.
+
+## Quick Start
+
+Clone the repository, cd into the folder with the project files and run the ``` npm install ``` command. It should fetch the ```express```, ```express-session```,```express-validators```,```pug```, ```lodash``` and ```body-parser``` packages and install them locally. Once installation completed. Simply run ```node app.js``` to start the project.
+
+## Documentation
+
