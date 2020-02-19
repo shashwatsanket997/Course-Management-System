@@ -45,3 +45,16 @@ For detailed Code convention refer ``convention.md``.
 ## Documentation
 
 Each API written, has a ```common series flow``` . An API is first listed in routes.js along with its validator(which act as the middleware). If the route is public, then it is mentioned in const.js. A non-public URL will seek authentication and will redirect to login using the access middleware defined in app.js. Each route has its respective controller, which validates the body, params or query if provided. If validation fails, it re-renders the page with the validation error. It also checks for the permission of the accessing user. On unauthorized access it re-render the page with authorization error. If permission is valid, its respective service is called which interacts with model and prepares the data for the respective page. The service returns promise. If the promise rejects with error the respective controller will catch the error and re-render accordingly. And if it resolves with the data, the controller will render the page with the data accordingly.
+
+#### Permission Table
+| Action | Student | Professor | Collaborating Prof |Admin|
+|----------|----------|----------|-----------|--------|
+| Add Course c1| No | Yes | No | Yes |
+| Edit Course c1| No | Yes | Yes | Yes |
+| Delete Course c1| No | Yes | No | Yes |
+| Register Course c1| Yes | No | No | No |
+| Deregister Course c1| Yes | No | No | No |
+| Add collaborateres for c1| No | Yes | No | Yes|
+| Send Collaboration Request| No | Yes | No | Yes |
+| Accept Collaboration Request| No | Yes | Yes | Yes |
+
