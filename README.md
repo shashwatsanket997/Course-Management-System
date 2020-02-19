@@ -80,7 +80,7 @@ A simple JSON database management system, which is implemented to learn the crux
 | Send Collaboration Request| No | Yes | Yes | No |
 | Accept Collaboration Request| No | Yes | Yes | No |
 
-#### Template Rendering Routes refernecs
+#### Template Rendering Routes -->
 
 |Route| Method| IsPublic |Description|
 |-----|-------|------------|--------|
