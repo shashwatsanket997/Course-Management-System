@@ -4,7 +4,7 @@ A Course Management System(``CMS``) is an online environment for course interact
 ## Table of contents
 
 - [Features](#features)
-- [Concepts Used](#concepts-used)
+- [Concepts Used](#concepts-applied)
 - [What's Included](#whats-included)
 - [Quick Start](#quick-start)
 - [Documentation](#documentation)
