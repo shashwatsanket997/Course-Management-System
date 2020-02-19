@@ -11,7 +11,7 @@ A Course Management System(``CMS``) is an online environment for course interact
 ## Features
 + A ``cookie-session`` based ``authentication`` system. To manage the context and track of different types of users.
 + ``3`` types of users ``Student``, ``Professor``, ``Admin``
-+ ``Course Registration System`` : ``Student`` can register set of available courses based on the registration ``limit``. Moreover it can deregister the registered course.
++ ``Course Registration System`` : ``Student`` can register set of available courses based on the registration ``limit``. Moreover it can deregister the registered courses.
 + ``Student`` can view their registered courses on the home page.
 + ``Professor`` can create courses or can invite other professors for collaboration using `` Collaboration via invitation``
 + ``Professor`` or collaboraters can ``edit`` their respective courses. Edit course means the ``duration``, ``limit of registration`` and ``content``
@@ -20,3 +20,29 @@ A Course Management System(``CMS``) is an online environment for course interact
 + ``Admin`` can ``Create``, ``Read`` ,``Edit``, ``Delete`` the courses on the portal.
 + ``Admin`` can also manage the collaboration of the particular course.
 + ``Collaboration via invitation``: A feature which enables the professors to send and accept invitation for collaboration.
+
+## What's Included
+
+``Code Structure``
+``
+root
+└── controllers/
+      ├── auth.controller.js
+      ├── cms.controller.js
+├───models
+      ├──Collaboration.js
+      ├──CourseRegistrations.js
+      ├──Courses.js
+      ├──Invitations.js
+      ├──Users.js
+├───routes
+      ├──routes.js
+├───services
+      ├──auth.service.js
+      ├──cms.service.js
+├───utils
+├───validators
+      ├──validators.js
+└───views
+      ├── --
+``
