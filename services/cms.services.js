@@ -20,7 +20,7 @@ module.exports.addCourse = (body) => {
             //else we can add the course
             delete body.courseId;
             Courses[courseId] = body;
-            //add the entry to the CourseRegistrations
+            //add an empty entry to the CourseRegistrations
             CourseRegistrations[courseId] = []
             //add an empty entry in Collaborations
             Collaborations[courseId] = []

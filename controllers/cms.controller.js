@@ -226,7 +226,6 @@ module.exports.getCourseCollaborations = (req, res) => {
     } else {
         //Validation check ...done
         //Permission check ...done 
-        console.log("Here");
         let courseId = req.params.id;
         let user = req.session.user;
         cmsService.prepareCollaborationPage(courseId, user)
@@ -299,3 +298,9 @@ module.exports.acceptCollabRequest = (req, res) => {
             })
     }
 }
+// --------------- 
+/* ``
+    Happy Coding 
+    
+    ``
+*/
