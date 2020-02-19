@@ -22,27 +22,14 @@ A Course Management System(``CMS``) is an online environment for course interact
 + ``Collaboration via invitation``: A feature which enables the professors to send and accept invitation for collaboration.
 
 ## What's Included
+The structure of the code strictly follows ``Model-Routes-Controllers-Services``. Here in this project 
++ The ``models`` contains pseudo database entries.
++ The ``routes`` contains all the availble endpoints, and serve as mapping of url with the respection controller
++ The ``controllers`` are mainly responsible for input validation and rendering the respective pages
++ The ``services`` are those which interacts with the database(here the ``Pseudo`` database) and prepares the data as requested by users
 
-``Code Structure``
-``
-root
-└── controllers/
-      ├── auth.controller.js
-      ├── cms.controller.js
-├───models
-      ├──Collaboration.js
-      ├──CourseRegistrations.js
-      ├──Courses.js
-      ├──Invitations.js
-      ├──Users.js
-├───routes
-      ├──routes.js
-├───services
-      ├──auth.service.js
-      ├──cms.service.js
-├───utils
-├───validators
-      ├──validators.js
-└───views
-      ├── --
-``
+Apart from this, the project has ``validators``, ``const``,``views``.
++ ``validators`` contains all the validation logic and constraint.
++ ``const`` contains all the ``constants``,``Enum`` for this project as well as ``publicUrls`` the routes that does'nt seek authentication.
++ ``views`` has pug files which will server during page rendering. Each pug views is been extended with layout.pug which acts as master template.
+### Sequence flow
