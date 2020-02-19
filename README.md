@@ -55,6 +55,6 @@ Each API written, has a ```common series flow``` . An API is first listed in rou
 | Register Course c1| Yes | No | No | No |
 | Deregister Course c1| Yes | No | No | No |
 | Add collaborateres for c1| No | Yes | No | Yes|
-| Send Collaboration Request| No | Yes | No | Yes |
+| Send Collaboration Request| No | Yes | Yes | Yes |
 | Accept Collaboration Request| No | Yes | Yes | Yes |
 
