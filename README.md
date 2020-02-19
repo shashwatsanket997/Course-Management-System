@@ -18,7 +18,6 @@ A Course Management System(``CMS``) is an online environment for course interact
 + ``Professor`` creating the course(not the collaborater) can ``delete`` the course. 
 + ``Professor`` can accept invitation for collaboration from other professors.
 + ``Admin`` can ``Create``, ``Read`` ,``Edit``, ``Delete`` the courses on the portal.
-+ ``Admin`` can also manage the collaboration of the particular course.
 + ``Collaboration via invitation``: A feature which enables the professors to send and accept invitation for collaboration.
 
 ## What's Included
