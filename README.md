@@ -57,11 +57,11 @@ For detailed Code convention refer ``convention.md``.
 #### Few Users for quick start  
 | username | password | userType |
 |----------|----------|------|
-| admin | asdf | admin |
 | root | asdf| professor |
 | andrew | asdf | professor |
 | shashwat | asdf | student |
 | ishu | asdf | student |
+| admin | asdf | admin |
 
 ## Documentation
 
