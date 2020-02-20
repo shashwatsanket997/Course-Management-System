@@ -1,4 +1,4 @@
-# Course-Mangement-System
+# Course-Management-System
 A Course Management System(``CMS``) is an online environment for course interactions between professsors and students. The application has ``3`` types of users as ``Student``, ``Professor`` and ``Admin``, each with different set of permissions and functionalities. The project is built on ``Node Js`` and ``Pug`` as template rendering system. The ``Code Structure`` strictly follows ``Model-Routes-Controllers-Services structure``.
 
 ## Table of contents
@@ -54,6 +54,14 @@ For detailed Code convention refer ``convention.md``.
   3. ```run npm install ``` command. It should install the ```express```, ```express-session```,```express-validators```,```pug```, ```lodash``` and ```body-parser``` packages and install them locally. 
   4. Once installation completed. 
   5. run ```node app.js``` to start the project.
+  6. Dummy Data for quick start
+| username | password | role |
+|----------|----------|------|
+| admin | asdf | admin |
+| root | asdf| professor |
+| andrew | asdf | professor |
+| shashwat | asdf | student |
+| ishu | asdf | student |
 
 ## Documentation
 
