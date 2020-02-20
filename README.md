@@ -54,8 +54,8 @@ For detailed Code convention refer ``convention.md``.
   3. ```run npm install ``` command. It should install the ```express```, ```express-session```,```express-validators```,```pug```, ```lodash``` and ```body-parser``` packages and install them locally. 
   4. Once installation completed. 
   5. run ```node app.js``` to start the project.
-  6. Dummy Data for quick start
-| username | password | role |
+#### Few Users for quick start  
+| username | password | userType |
 |----------|----------|------|
 | admin | asdf | admin |
 | root | asdf| professor |
