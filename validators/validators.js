@@ -15,7 +15,7 @@ module.exports.register = [
     check('password', 'password should be greater than 4 chars').isLength({ min: 4 }),
     check('name', 'Name is required').not().isEmpty(),
     check('userType', 'User Type can be Student, Professor and Admin only')
-        .isIn([UserType.STUDENT, UserType.PROF, UserType.ADMIN])
+        .not().isIn([UserType.STUDENT, UserType.PROF, UserType.ADMIN])
 ]
 
 module.exports.addCourse = [
